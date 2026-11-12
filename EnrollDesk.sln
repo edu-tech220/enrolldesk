@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnrollDesk.Api", "EnrollDesk.Api\EnrollDesk.Api.csproj", "{C018460D-8222-430F-AF12-8C6345439BDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnrollDesk.Web", "EnrollDesk.Web\EnrollDesk.Web.csproj", "{325CAE0B-8D6B-480A-82F8-3175D147B5A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnrollDesk.Tests", "EnrollDesk.Tests\EnrollDesk.Tests.csproj", "{EAF4674D-9F91-4A81-99DD-508EBD7B47D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C018460D-8222-430F-AF12-8C6345439BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C018460D-8222-430F-AF12-8C6345439BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C018460D-8222-430F-AF12-8C6345439BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C018460D-8222-430F-AF12-8C6345439BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325CAE0B-8D6B-480A-82F8-3175D147B5A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325CAE0B-8D6B-480A-82F8-3175D147B5A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325CAE0B-8D6B-480A-82F8-3175D147B5A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325CAE0B-8D6B-480A-82F8-3175D147B5A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF4674D-9F91-4A81-99DD-508EBD7B47D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF4674D-9F91-4A81-99DD-508EBD7B47D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF4674D-9F91-4A81-99DD-508EBD7B47D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF4674D-9F91-4A81-99DD-508EBD7B47D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
