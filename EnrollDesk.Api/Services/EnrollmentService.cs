@@ -254,6 +254,37 @@ public class EnrollmentService : IEnrollmentService
         }
     }
 
+    public async Task<GradeResult> RecordGradeAsync(int enrollmentId, decimal finalScore, CancellationToken ct = default)
+    {
+        var enrollment = await _db.Enrollments
+            .Include(e => e.Section)
+            .ThenInclude(s => s.Term)
+            .FirstOrDefaultAsync(e => e.Id == enrollmentId, ct);
+
+        if (enrollment is null)
+        {
+            return new GradeResult(GradeOutcome.NotFound, "Enrollment not found.");
+        }
+
+        if (enrollment.Status != EnrollmentStatus.Enrolled)
+        {
+            return new GradeResult(GradeOutcome.NotActive, "Only an active enrollment can be graded.");
+        }
+
+        var today = DateOnly.FromDateTime(_clock.UtcNow);
+        if (today < enrollment.Section.Term.EndDate)
+        {
+            return new GradeResult(GradeOutcome.TermNotEnded, $"The term does not end until {enrollment.Section.Term.EndDate:yyyy-MM-dd}.");
+        }
+
+        enrollment.Status = EnrollmentStatus.Completed;
+        enrollment.FinalScore = finalScore;
+        enrollment.EndedAtUtc = _clock.UtcNow;
+        await _db.SaveChangesAsync(ct);
+
+        return new GradeResult(GradeOutcome.Recorded, "Grade recorded.");
+    }
+
     private async Task<List<string>> GetMissingPrerequisiteCodesAsync(int userId, int courseId, CancellationToken ct)
     {
         var requiredCourseIds = await _db.CoursePrerequisites
