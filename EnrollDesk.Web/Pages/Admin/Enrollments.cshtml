@@ -1,0 +1,82 @@
+@page
+@model EnrollDesk.Web.Pages.Admin.EnrollmentsModel
+@{
+    ViewData["Title"] = "Admin: Enrollments";
+}
+
+<h1>All Enrollments</h1>
+
+@if (Model.StatusMessage is not null)
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="number" name="SectionId" value="@Model.SectionId" placeholder="Section ID" class="form-control" />
+    </div>
+    <div class="col-auto">
+        <select name="Status" class="form-select">
+            <option value="">Any status</option>
+            @foreach (var s in new[] { "Enrolled", "Waitlisted", "Dropped", "Withdrawn", "Completed" })
+            {
+                <option value="@s" selected="@(Model.Status == s)">@s</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-secondary">Filter</button>
+    </div>
+</form>
+
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Student</th>
+        <th>Course</th>
+        <th>Term</th>
+        <th>Status</th>
+        <th>Final Score</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var e in Model.Result.Items)
+    {
+        <tr>
+            <td>@e.Id</td>
+            <td>@e.StudentName</td>
+            <td>@e.CourseCode-@e.SectionNumber</td>
+            <td>@e.TermName</td>
+            <td><span class="badge bg-secondary">@e.Status</span></td>
+            <td>@(e.FinalScore?.ToString("0.0") ?? "—")</td>
+            <td class="d-flex gap-2">
+                @if (e.Status is "Enrolled" or "Waitlisted")
+                {
+                    <form method="post" asp-page-handler="Drop">
+                        <input type="hidden" name="enrollmentId" value="@e.Id" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Force drop</button>
+                    </form>
+                }
+                @if (e.Status == "Enrolled")
+                {
+                    <form method="post" asp-page-handler="Grade" class="d-flex gap-1">
+                        <input type="hidden" name="enrollmentId" value="@e.Id" />
+                        <input type="number" step="0.1" min="0" max="100" name="finalScore" class="form-control form-control-sm" style="width:5rem" required />
+                        <button type="submit" class="btn btn-sm btn-outline-success">Grade</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p>Page @Model.Result.Page of @Model.Result.TotalPages (@Model.Result.TotalCount total)</p>
+
