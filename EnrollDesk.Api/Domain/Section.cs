@@ -26,6 +26,9 @@ public class Section
     /// <summary>Seats currently occupied by students with <see cref="EnrollmentStatus.Enrolled"/> status.</summary>
     public int SeatsTaken { get; set; }
 
+    /// <summary>Students currently on the FIFO waitlist for this section.</summary>
+    public int WaitlistCount { get; set; }
+
     /// <summary>
     /// Application-managed optimistic concurrency token, incremented on every write.
     /// Uses a plain integer (not a database-generated rowversion) so the same entity

@@ -46,11 +46,11 @@ public static class DbInitializer
 
         var term = new Term
         {
-            Name = "2026-1",
-            StartDate = new DateOnly(2026, 1, 12),
-            EndDate = new DateOnly(2026, 5, 1),
-            AddDropDeadline = new DateOnly(2026, 1, 26),
-            WithdrawalDeadline = new DateOnly(2026, 3, 13),
+            Name = "2026-2",
+            StartDate = new DateOnly(2026, 8, 17),
+            EndDate = new DateOnly(2026, 12, 18),
+            AddDropDeadline = new DateOnly(2026, 8, 31),
+            WithdrawalDeadline = new DateOnly(2026, 11, 20),
             MaxCreditsPerTerm = 18,
             IsActive = true
         };

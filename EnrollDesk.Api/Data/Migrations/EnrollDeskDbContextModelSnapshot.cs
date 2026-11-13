@@ -157,6 +157,9 @@ namespace EnrollDesk.Api.Data.Migrations
                     b.Property<int>("TermId")
                         .HasColumnType("int");
 
+                    b.Property<int>("WaitlistCount")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("TermId");
