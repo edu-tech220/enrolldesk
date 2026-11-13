@@ -4,12 +4,14 @@ using EnrollDesk.Api.Domain;
 using EnrollDesk.Api.Dtos;
 using EnrollDesk.Api.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnrollDesk.Api.Controllers;
 
 [ApiController]
 [Route("api/auth")]
+[EnableRateLimiting("auth")]
 public class AuthController : ControllerBase
 {
     private readonly EnrollDeskDbContext _db;
