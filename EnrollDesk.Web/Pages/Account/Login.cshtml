@@ -1,0 +1,35 @@
+@page
+@model EnrollDesk.Web.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<h1>Log in</h1>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <form method="post">
+            <input type="hidden" asp-for="Input.ReturnUrl" />
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </form>
+        <p class="mt-3">
+            Demo accounts: <code>admin@enrolldesk.edu</code> / <code>Admin#2026</code> (registrar),
+            <code>student@enrolldesk.edu</code> / <code>Student#2026</code> (student).
+        </p>
+    </div>
+</div>

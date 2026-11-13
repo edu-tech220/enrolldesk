@@ -1,0 +1,51 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "My Enrollments";
+}
+
+<h1>My Enrollments</h1>
+
+@if (Model.StatusMessage is not null)
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<table class="table table-striped align-middle">
+    <thead>
+    <tr>
+        <th>Course</th>
+        <th>Term</th>
+        <th>Status</th>
+        <th>Waitlist #</th>
+        <th>Final Score</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var enrollment in Model.Enrollments)
+    {
+        <tr>
+            <td>@enrollment.CourseCode-@enrollment.SectionNumber</td>
+            <td>@enrollment.TermName</td>
+            <td><span class="badge bg-secondary">@enrollment.Status</span></td>
+            <td>@(enrollment.WaitlistPosition?.ToString() ?? "—")</td>
+            <td>@(enrollment.FinalScore?.ToString("0.0") ?? "—")</td>
+            <td>
+                @if (enrollment.Status is "Enrolled" or "Waitlisted")
+                {
+                    <form method="post" asp-page-handler="Drop">
+                        <input type="hidden" name="enrollmentId" value="@enrollment.Id" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Drop</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
