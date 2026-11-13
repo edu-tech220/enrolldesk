@@ -145,6 +145,19 @@ No Docker, no SQL Server, no network calls — every test runs against an isolat
 in-memory database, either directly against `EnrollmentService` or through the full HTTP pipeline
 via `WebApplicationFactory`.
 
+## Known trade-offs
+
+- **Waitlist renumbering is a follow-up step, not part of the atomic seat transaction.** Freeing
+  a seat and promoting the next waitlisted student are protected together by `Section.RowVersion`.
+  Renumbering the *remaining* waitlist positions (closing the gap left by the promoted student)
+  runs as a second, separate `SaveChanges` call right after. In the rare case another request
+  reads a stale position in between, the next drop or enroll on that section corrects it — the
+  queue is always consistent again within one more operation. This keeps the hot path (seat
+  counts) simple to reason about instead of folding cosmetic renumbering into the same retry loop.
+- **Grading is intentionally registrar-only and single-shot.** `RecordGradeAsync` moves an
+  enrollment straight to `Completed`; there's no grade-revision workflow, since that's outside
+  what this project set out to demonstrate.
+
 ## Project layout
 
 ```
