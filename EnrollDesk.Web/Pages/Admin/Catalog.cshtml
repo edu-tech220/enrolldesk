@@ -1,0 +1,129 @@
+@page
+@model EnrollDesk.Web.Pages.Admin.CatalogModel
+@{
+    ViewData["Title"] = "Admin: Catalog";
+}
+
+<h1>Catalog Management</h1>
+
+@if (Model.StatusMessage is not null)
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <h2 class="h4">New Course</h2>
+        <form method="post" asp-page-handler="CreateCourse">
+            <div class="mb-2">
+                <label asp-for="NewCourse.Code" class="form-label"></label>
+                <input asp-for="NewCourse.Code" class="form-control" placeholder="CS401" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewCourse.Title" class="form-label"></label>
+                <input asp-for="NewCourse.Title" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewCourse.Description" class="form-label"></label>
+                <input asp-for="NewCourse.Description" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewCourse.Credits" class="form-label"></label>
+                <input asp-for="NewCourse.Credits" type="number" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewCourse.PrerequisiteCodes" class="form-label">Prerequisites (comma-separated codes)</label>
+                <input asp-for="NewCourse.PrerequisiteCodes" class="form-control" placeholder="CS101, CS201" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create Course</button>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <h2 class="h4">New Term</h2>
+        <form method="post" asp-page-handler="CreateTerm">
+            <div class="mb-2">
+                <label asp-for="NewTerm.Name" class="form-label"></label>
+                <input asp-for="NewTerm.Name" class="form-control" placeholder="2027-1" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewTerm.StartDate" class="form-label"></label>
+                <input asp-for="NewTerm.StartDate" type="date" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewTerm.EndDate" class="form-label"></label>
+                <input asp-for="NewTerm.EndDate" type="date" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewTerm.AddDropDeadline" class="form-label"></label>
+                <input asp-for="NewTerm.AddDropDeadline" type="date" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewTerm.WithdrawalDeadline" class="form-label"></label>
+                <input asp-for="NewTerm.WithdrawalDeadline" type="date" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewTerm.MaxCreditsPerTerm" class="form-label"></label>
+                <input asp-for="NewTerm.MaxCreditsPerTerm" type="number" class="form-control" />
+            </div>
+            <div class="form-check mb-2">
+                <input asp-for="NewTerm.IsActive" class="form-check-input" />
+                <label asp-for="NewTerm.IsActive" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Term</button>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <h2 class="h4">New Section</h2>
+        <form method="post" asp-page-handler="CreateSection">
+            <div class="mb-2">
+                <label asp-for="NewSection.CourseId" class="form-label"></label>
+                <select asp-for="NewSection.CourseId" class="form-select">
+                    @foreach (var course in Model.Courses)
+                    {
+                        <option value="@course.Id">@course.Code - @course.Title</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.TermId" class="form-label"></label>
+                <select asp-for="NewSection.TermId" class="form-select">
+                    @foreach (var term in Model.Terms)
+                    {
+                        <option value="@term.Id">@term.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.SectionNumber" class="form-label"></label>
+                <input asp-for="NewSection.SectionNumber" class="form-control" placeholder="001" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.InstructorName" class="form-label"></label>
+                <input asp-for="NewSection.InstructorName" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.Location" class="form-label"></label>
+                <input asp-for="NewSection.Location" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.Days" class="form-label">Days (comma-separated)</label>
+                <input asp-for="NewSection.Days" class="form-control" placeholder="Monday, Wednesday, Friday" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.StartTime" class="form-label"></label>
+                <input asp-for="NewSection.StartTime" type="time" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.EndTime" class="form-label"></label>
+                <input asp-for="NewSection.EndTime" type="time" class="form-control" />
+            </div>
+            <div class="mb-2">
+                <label asp-for="NewSection.Capacity" class="form-label"></label>
+                <input asp-for="NewSection.Capacity" type="number" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Create Section</button>
+        </form>
+    </div>
+</div>

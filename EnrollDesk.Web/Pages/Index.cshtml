@@ -1,10 +1,61 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Course Catalog";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Course Catalog</h1>
+
+@if (Model.StatusMessage is not null)
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+else if (Model.ActiveTerm is not null)
+{
+    <p>
+        Active term <strong>@Model.ActiveTerm.Name</strong>
+        (@Model.ActiveTerm.StartDate.ToString("MMM d") &ndash; @Model.ActiveTerm.EndDate.ToString("MMM d, yyyy")).
+        Add/drop deadline: <strong>@Model.ActiveTerm.AddDropDeadline.ToString("MMM d, yyyy")</strong>.
+        Withdrawal deadline: <strong>@Model.ActiveTerm.WithdrawalDeadline.ToString("MMM d, yyyy")</strong>.
+    </p>
+
+    <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+            <th>Section</th>
+            <th>Title</th>
+            <th>Instructor</th>
+            <th>Schedule</th>
+            <th>Location</th>
+            <th>Seats</th>
+            <th>Waitlist</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var offering in Model.Sections)
+        {
+            <tr>
+                <td>@offering.CourseCode-@offering.SectionNumber</td>
+                <td>@offering.CourseTitle</td>
+                <td>@offering.InstructorName</td>
+                <td>@(string.Join("/", offering.Days.Select(d => d[..3]))) @(offering.StartTime.ToString(@"hh\:mm"))&ndash;@(offering.EndTime.ToString(@"hh\:mm"))</td>
+                <td>@offering.Location</td>
+                <td>@offering.SeatsAvailable / @offering.Capacity</td>
+                <td>@(offering.WaitlistCount > 0 ? offering.WaitlistCount.ToString() : "—")</td>
+                <td>
+                    <form method="post" asp-page-handler="Enroll">
+                        <input type="hidden" name="sectionId" value="@offering.Id" />
+                        <button type="submit" class="btn btn-sm btn-primary">Enroll</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
